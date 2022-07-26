@@ -24,7 +24,7 @@ class Contenedor {
             const data = await fs.promises.readFile(this.text, 'utf8')
             const dataIdParse = JSON.parse(data)
             const producto = dataIdParse.find(producto => producto.id === id)
-            producto ? console.log(producto) : console.log('No se encontro el producto')
+            producto ? console.log(producto) : console.log('No se encontró el producto')
         } 
         catch(err){
             console.log(err)
