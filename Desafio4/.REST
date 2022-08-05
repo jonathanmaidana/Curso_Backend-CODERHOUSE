@@ -1,0 +1,21 @@
+# POST http://localhost:3030/api/productos HTTP/1.1
+# content-type: application/json
+
+# {
+#     "title": "Campera",
+#     "price": "5000",
+#     "thumbnail": "https://static.dafiti.com.ar/p/aloud-2878-140437-1-product.jpg"
+# }
+
+
+# PUT http://localhost:3030/api/productos/2 HTTP/1.1
+# content-type: application/json
+
+# {
+#     "title": "Remera",
+#     "price": "2000",
+#     "thumbnail": "https://http2.mlstatic.com/D_NQ_NP_911075-MLA41933568811_052020-O.jpg"
+# }
+
+# DELETE http://localhost:3030/api/productos/4 HTTP/1.1
+# content-type: application/json
