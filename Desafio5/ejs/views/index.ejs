@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Formulario</h1>
+    <form method="POST" action="http://localhost:3000/productos">
+        <label for="titulo">Titulo</label>
+        <input type="text" id="titulo" name='titulo' placeholder="titulo">
+        <label for="precio">Precio</label>
+        <input type="text" id="precio" name='precio' placeholder="precio">
+        <input type="submit">
+    </form>
+    <% if (listaProductos.length > 0){ %>
+        <ul>
+            <% listaProductos.forEach(prod => { %>
+                <li>Nombre: <%= prod.title %> Precio: <%= prod.price %> </li>
+            <% }) %>
+        </ul>
+    <% }else{ %>
+        <h2>No hay productos</h2>
+    <% } %>
+</body>
+</html>

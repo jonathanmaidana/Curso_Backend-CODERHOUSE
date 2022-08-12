@@ -1,0 +1,16 @@
+<h1>Formulario</h1>
+
+<form method="POST" action="http://localhost:3000/productos">
+    <label>Titulo</label>
+    <input type="text" name="title" placeholder="titulo">
+    <label>Precio</label>
+    <input type="text" name="precio" placeholder="precio">
+    <input type="submit">
+</form>
+
+
+    <ul>
+        {{#each listaProductos}}
+            <li>Titulo: {{title}}, Precio: {{price}}</li>
+        {{/each}}
+    </ul>
