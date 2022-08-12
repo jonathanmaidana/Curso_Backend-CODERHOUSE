@@ -10,7 +10,6 @@ class Contenedor {
         try{
             const data = await fs.promises.readFile(this.text, 'utf-8')
             const dataParse =  await JSON.parse(data)
-            console.log(dataParse)
             if(dataParse.length){
                 return dataParse
             }
@@ -30,7 +29,7 @@ class Contenedor {
             //LEO EL ARCHIVO
             const data = await fs.promises.readFile(this.text, 'utf8')
             //CONVIERTO EL ARCHIVO A UN OBJETO JS
-            const dataParse = JSON.parse(data)
+            const dataParse = await JSON.parse(data)
             if(dataParse.length) //[].length = 0 => false (0 = false, 1 = true)
             {
                 //SI HAY ALGO EN EL ARCHIVO COPIA EL CONTENIDO DEL VIEJO Y NUEVO ARRAY Y LOS JUNTA

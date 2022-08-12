@@ -23,14 +23,14 @@ app.use(express.static('public'))
 
 app.get('/', async (req, res) => {
     const getAll = await contenedor.getAll()
-    res.render('main', {
+    res.render('form', {
       listaProductos: getAll
     })
   })
   
   app.get('/productos', async (req, res) => {
     const getAll = await contenedor.getAll()
-    res.render('main', {
+    res.render('layouts/productos', {
       listaProductos: getAll
     })
   })

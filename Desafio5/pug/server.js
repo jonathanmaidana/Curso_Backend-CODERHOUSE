@@ -12,14 +12,14 @@ app.set('views', './views')
 
 app.get('/', async (req, res) => {
     const getAll = await contenedor.getAll()
-    res.render('index', {
+    res.render('form', {
       listaProductos: getAll
     })
   })
   
   app.get('/productos', async (req, res) => {
     const getAll = await contenedor.getAll()
-    res.render('index', {
+    res.render('productos', {
       listaProductos: getAll
     })
   })

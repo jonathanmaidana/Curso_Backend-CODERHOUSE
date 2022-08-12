@@ -11,35 +11,24 @@ app.set('views', './views')
 
 app.get('/', async (req, res) => {
   const getAll = await contenedor.getAll()
-  res.render('index', {
-    listaProductos: getAll
+  res.render('form',{
+  listaProductos: getAll,
   })
 })
 
 app.get('/productos', async (req, res) => {
   const getAll = await contenedor.getAll()
-  res.render('index', {
-    listaProductos: getAll
+  res.render('productos', {
+    listaProductos: getAll,
   })
 })
 
 app.post('/productos', async (req, res) => {
   const obj = req.body
+  console.log(obj)
   contenedor.newObj(obj)
   res.redirect('/productos')
 })
-
-// app.get('/', (req, res) => {
-//     res.render('pages/index', { 
-//         productos: productos
-//     })
-// })
-
-// app.post('/productos', (req, res) => {
-//     const obj = req.body
-//     productos.push(obj)
-//     res.redirect('pages/index')
-// })
 
 const PORT = 3000
 app.listen(PORT, err => {
