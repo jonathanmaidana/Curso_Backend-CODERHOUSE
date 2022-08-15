@@ -24,8 +24,10 @@
                 <% listaProductos.map(prod => { %>
                 <tr>
                     <td class="pb-2"><%= prod.title %></td>
-                    <td>$<%= prod.price %></td>
-                    <td><%= prod.thumbnail %></td>
+                    <td class="pb-2">$<%= prod.price %></td>
+                    <td class="pb-2 d-flex justify-content-center">
+                        <img style="width: 30px" src=<%= prod.thumbnail %> />
+                    </td>
                 </tr>
                 <% }) %>
             </tbody>
