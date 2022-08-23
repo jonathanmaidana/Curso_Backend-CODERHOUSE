@@ -41,7 +41,7 @@
 
     <div class="container d-flex justify-content-center flex-column w-50 bg-light">
         <h1 class="text-center my-5 color-primary">Vista de Productos</h1>
-        
+        <div id="table" class="text-center"> 
             <table class="table bg-dark text-light">
                 <thead class="text-center">
                     <tr class="fs-6 fw-bold text-start">
@@ -50,20 +50,23 @@
                         <th scope="col">Imagen</th>
                     </tr>
                 </thead>
-                <tbody id="products" class="text-start">
-                    
-                </tbody>
+                    <tbody id="products" class="text-start">
+                        
+                    </tbody>
             </table>
         </div>
+    </div>
         
     <div class="container d-flex justify-content-center flex-column w-50 bg-light mt-5">
         <h1 class="text-center my-5 color-primary">Centro de mensajes</h1>
         
         <form onsubmit="return addMessage(this)">
-            <input class="mb-4" type="email" id="email" placeholder="miEmail@gmail.com">
+            <input class="mb-2 w-50" type="email" id="email" required placeholder="miEmail@gmail.com">
+            <hr>
             <div id="messages"></div>
-            <input type="text" id="mensaje" placeholder="Cuéntanos algo...">
-            <input class="my-4" type="submit" value="Enviar" class="btn btn-success">
+            <div class="d-flex flex-row my-4 d-inline-flex">
+                <input type="text" id="mensaje" required placeholder="Cuéntanos algo...">
+                <input type="submit" value="Enviar!" class="btn btn-primary ms-2">
         </form>
     </div>
 

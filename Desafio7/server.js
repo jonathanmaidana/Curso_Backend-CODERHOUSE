@@ -11,6 +11,9 @@ const io = new IOServer(httpServer);
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("public"));
 
+app.set('view engine', 'ejs')
+app.set('views', './public')
+
 let messages = [
     { email: "Juan", mensaje: "¡Hola! ¿Que tal?" },
     { email: "Pedro", mensaje: "¡Muy bien! ¿Y vos?" },
@@ -18,9 +21,12 @@ let messages = [
 ]; 
 
 app.get('/', async (req, res) => {
-        res.sendFile( 
-            'index.html',
-            { root: __dirname}
+    const getAll = await contenedor.getAll()
+    console.log(getAll)
+        res.render( 
+            'index',
+            { root: __dirname,
+            listaProductos: getAll}
         )
     })
 
@@ -43,7 +49,7 @@ io.on('connection', async (socket) => {
     /* Listening for a new product from the client and then pushing it to the product array and then
         emitting the new product to all the clients. */
     socket.on('new-product', (data) =>{
-       contenedor.newObj(data)
+        contenedor.newObj(data)
         io.sockets.emit('product', getAll)
     }) 
 })

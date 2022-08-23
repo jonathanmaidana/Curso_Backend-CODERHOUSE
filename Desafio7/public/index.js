@@ -15,7 +15,6 @@ function renderMsj(messages){
 
 
 /* A function that takes the messages from the server and renders them in the HTML. */
-    console.log(messages)
     const html = messages.map(function (e,i) {
         return(`<div class="d-flex">
         <strong class="me-1 color-primary mb-1">${e.email}</strong>
@@ -50,20 +49,26 @@ server.on('product', (container) => {
     renderPdct(container)
 })
 
+
 /* Rendering the products in the table. */
 function renderPdct(container){
     console.log(container)
-    const html = container.map(function(e,i) {
-        return(`<tr>
-                <td class="pb-2" id="title">${e.title}</td>
-                <td class="pb-2" id="price">$${e.price}</td>
-                <td class="pb-2 d-flex justify-content-center">
-                    <img style="width: 30px" id="thumbnail" src="${e.thumbnail}"/>
-                </td>
-                </tr>`)
-    }).join(" ");
+    if (container.length > 0) {
+        const html = container.map(function(e,i) {
+            return(`<tr>
+                    <td class="pb-2" id="title">${e.title}</td>
+                    <td class="pb-2" id="price">$${e.price}</td>
+                    <td class="pb-2 d-flex justify-content-center">
+                        <img style="width: 30px" id="thumbnail" src="${e.thumbnail}"/>
+                    </td>
+                    </tr>`)
+        }).join(" ");
 
-    document.getElementById('products').innerHTML = html;
+        document.getElementById('products').innerHTML = html;
+    }else {
+        const html = (`<h1>No hay productos</h1>`)
+        document.getElementById('table').innerHTML = html;
+    }
 }
 server.on('product', function(data) {renderPdct(data)})
 
