@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack ./1-PrimerPreentrega/index1.js ./1-PrimerPreentrega/index2.js ./1-PrimerPreentrega/index3.js --mode=production",
+    "dev": "webpack ./1-PrimerPreentrega/index1.js ./1-PrimerPreentrega/index2.js ./1-PrimerPreentrega/index3.js --mode=development"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,8 @@
   "homepage": "https://github.com/jonathanmaidana/Curso_Backend-CODERHOUSE#readme",
   "dependencies": {
     "express": "^4.18.1",
-    "socket.io": "^4.5.1"
+    "socket.io": "^4.5.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }
