@@ -4,7 +4,7 @@ const Contenedor = require("./contenedor");
 const contenedor = new Contenedor('./prod.txt')
 
 const app = express();
-const routerProductos = Router()
+const routerProductos = Router();
 
 app.use(express.json())
 app.use(express.static('public'))
@@ -57,9 +57,7 @@ routerProductos.delete('/:id', async (req, res) => {
     res.json(deleteObj)
 })
 
-
 app.use('/api/productos', routerProductos)
-
 
 const PORT = 3030
 app.listen(PORT, () => {

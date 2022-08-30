@@ -1,8 +1,8 @@
 const fs = require('fs')
 
-const timestamp = Date.now()
+const timestamp = Date.now();
 
-export default class Contenedor {
+export default class Carrito {
     public text: string;
 
     constructor(text: string){
@@ -79,7 +79,7 @@ export default class Contenedor {
             }else{
                 //SI NO HAY NADA EN EL ARCHIVO SOBREESCRIBE ESTO
                 // await fs.promises.writeFile(this.text, JSON.stringify([{...obj, id: dataParse.length + 1}], null, 2))
-                await fs.promises.writeFile(this.text, JSON.stringify([{...obj,timestamp: timestamp, id: dataParse.length + 1}], null, 2))
+                await fs.promises.writeFile(this.text, JSON.stringify([{...obj,timestamp: timestamp , id: dataParse.length + 1}], null, 2))
             }
                 return dataParse.length + 1
                 // console.log(dataParse.length + 1)
@@ -102,6 +102,16 @@ export default class Contenedor {
             } else{
                 return {err: 'Producto no encontrado'}
             }
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+
+    async deleteAll(){
+        try {
+            await fs.promises.writeFile(this.text, JSON.stringify([]), 'utf8');
+            console.log('Productos borrados')
         }
         catch(err){
             console.log(err)

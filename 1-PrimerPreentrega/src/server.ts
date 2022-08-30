@@ -1,12 +1,16 @@
 const express = require('express');
 import Contenedor from "./contenedor";
+import Carrito from "./carrito";
 const { Router } = express;
 
-
 const contenedor: Contenedor = new Contenedor('./prod.txt')
+const carrito: Carrito = new Carrito('./carrito.txt')
 
 const app = express();
-const routerProductos = Router()
+const routerProductos = Router();
+const routerCarrito = Router();
+
+const timestamp = Date.now();
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("public"));
@@ -14,6 +18,8 @@ app.use(express.static("public"));
 app.set('view engine', 'ejs')
 app.set('views', './public')
 
+
+/* -------------------------- Rutas para productos ------------------------- */
 routerProductos.get('/', async (req, res) => {
     const getAll = await contenedor.getAll();
         res.render( 
@@ -32,11 +38,13 @@ routerProductos.get('/:id', async (req, res) => {
 routerProductos.post('/', async (req, res) => {
     const newObj = req.query
     const saveObj = await contenedor.newObj(newObj)
-    res.json({
-      msg: 'Producto agregado',
-      saveObj,
-      object: newObj
-    })
+    
+      res.json({
+        msg: 'Producto agregado',
+        saveObj,
+        object: newObj,
+        timestamp: timestamp
+      })
 })
 
 routerProductos.put('/:id', async (req, res) => {
@@ -52,29 +60,57 @@ routerProductos.put('/:id', async (req, res) => {
 
 routerProductos.delete('/:id', async (req, res) => {
     const { id } = req.params
-    console.log(req.params)
     const deleteObj = await contenedor.deleteById(Number (id))
     res.json(deleteObj)
 })
 
 
+/* -------------------------- Rutas para el carrito ------------------------- */
+// routerCarrito.post('/', async (req,res) => {
+//   const newObj = req.query
+//   const id = await carrito.newObj(newObj)
+//   res.json({
+//     msg: 'Producto agregado',
+//     timestamp: timestamp,
+//     id,
+//     object: newObj
+//   })
+// })
+
+// routerCarrito.delete('/:id', async (req, res) => {
+//   const deleteAll = await carrito.deleteAll()
+//   res.json(deleteAll)
+// })
 
 
-    // io.on('connection', async (socket) => {
-    //     /* Logging to the console that the client has connected. */
-    //     console.log('El usuario se ha conectado');
-    //     const getAll = await contenedor.getAll()
-    //     socket.emit('product', getAll);
-    //     /* Listening for a new product from the client and then pushing it to the product array and then
-    //         emitting the new product to all the clients. */
-    //     // socket.on('new-product', (data) =>{
-    //     //     contenedor.newObj(data)
-    //     //     io.sockets.emit('product', getAll)
-    //     // }) 
-    // }, [])
+// routerCarrito.get('/:id/productos', async (req,res) => {
+//   const getAll = await carrito.getAll()
+//   res.render( 
+//     'carrito',{ 
+//       root: __dirname,
+//       listaCarrito: getAll
+//     })
+//   })
 
+//   routerCarrito.post('/:id/productos', async (req,res) => {
+//     const newObj = req.query
+//     const id = await carrito.newObj(newObj)
+//     res.json({
+//       msg: 'Producto agregado',
+//       timestamp: timestamp,
+//       id,
+//       object: newObj
+//     })
+//   })
+  
+//   routerCarrito.delete('/:id/productos/:id_prod', async (req,res) => {
+//     const { id } = req.params
+//     const deleteObj = await carrito.deleteById(Number (id))
+//     res.json(deleteObj)
+//   })
 
-    app.use('/productos', routerProductos)
+    app.use('/api/productos', routerProductos)
+    app.use('/api/carrito', routerCarrito)
 
 const PORT = 8080;
 app.listen(PORT, () =>{
