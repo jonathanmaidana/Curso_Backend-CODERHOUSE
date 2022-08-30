@@ -66,48 +66,48 @@ routerProductos.delete('/:id', async (req, res) => {
 
 
 /* -------------------------- Rutas para el carrito ------------------------- */
-// routerCarrito.post('/', async (req,res) => {
-//   const newObj = req.query
-//   const id = await carrito.newObj(newObj)
-//   res.json({
-//     msg: 'Producto agregado',
-//     timestamp: timestamp,
-//     id,
-//     object: newObj
-//   })
-// })
+routerCarrito.post('/', async (req,res) => {
+  const newObj = req.query
+  const id = await carrito.newObj(newObj)
+  res.json({
+    msg: 'Producto agregado',
+    timestamp: timestamp,
+    id,
+    object: newObj
+  })
+})
 
-// routerCarrito.delete('/:id', async (req, res) => {
-//   const deleteAll = await carrito.deleteAll()
-//   res.json(deleteAll)
-// })
+routerCarrito.delete('/:id', async (req, res) => {
+  const deleteAll = await carrito.deleteAll()
+  res.json(deleteAll)
+})
 
 
-// routerCarrito.get('/:id/productos', async (req,res) => {
-//   const getAll = await carrito.getAll()
-//   res.render( 
-//     'carrito',{ 
-//       root: __dirname,
-//       listaCarrito: getAll
-//     })
-//   })
+routerCarrito.get('/:id/productos', async (req,res) => {
+  const getAll = await carrito.getAll()
+  res.render( 
+    'carrito',{ 
+      root: __dirname,
+      listaCarrito: getAll
+    })
+  })
 
-//   routerCarrito.post('/:id/productos', async (req,res) => {
-//     const newObj = req.query
-//     const id = await carrito.newObj(newObj)
-//     res.json({
-//       msg: 'Producto agregado',
-//       timestamp: timestamp,
-//       id,
-//       object: newObj
-//     })
-//   })
+  routerCarrito.post('/:id/productos', async (req,res) => {
+    const newObj = req.query
+    const id = await carrito.newObj(newObj)
+    res.json({
+      msg: 'Producto agregado',
+      timestamp: timestamp,
+      id,
+      object: newObj
+    })
+  })
   
-//   routerCarrito.delete('/:id/productos/:id_prod', async (req,res) => {
-//     const { id } = req.params
-//     const deleteObj = await carrito.deleteById(Number (id))
-//     res.json(deleteObj)
-//   })
+  routerCarrito.delete('/:id/productos/:id_prod', async (req,res) => {
+    const { id } = req.params
+    const deleteObj = await carrito.deleteById(Number (id))
+    res.json(deleteObj)
+  })
 
     app.use('/api/productos', routerProductos)
     app.use('/api/carrito', routerCarrito)
