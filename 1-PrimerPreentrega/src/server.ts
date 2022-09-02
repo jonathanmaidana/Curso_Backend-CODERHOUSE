@@ -5,6 +5,8 @@ const { Router } = express;
 
 const contenedor: Contenedor = new Contenedor('./prod.txt')
 const carrito: Carrito = new Carrito('./carrito.txt')
+const administrador = true;
+
 
 const app = express();
 const routerProductos = Router();
@@ -68,7 +70,7 @@ routerProductos.delete('/:id', async (req, res) => {
 /* -------------------------- Rutas para el carrito ------------------------- */
 routerCarrito.post('/', async (req,res) => {
   const newObj = req.query
-  const id = await carrito.newObj(newObj)
+  const id = await carrito.createCart(newObj)
   res.json({
     msg: 'Producto agregado',
     timestamp: timestamp,
@@ -93,13 +95,13 @@ routerCarrito.get('/:id/productos', async (req,res) => {
   })
 
   routerCarrito.post('/:id/productos', async (req,res) => {
-    const newObj = req.query
-    const id = await carrito.newObj(newObj)
+    const { id } = req.params  
+    const updateById = await carrito.getById(Number (id))
     res.json({
       msg: 'Producto agregado',
       timestamp: timestamp,
       id,
-      object: newObj
+      object: updateById
     })
   })
   

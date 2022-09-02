@@ -1,8 +1,26 @@
 [
   {
     "title": "asd",
-    "price": "123",
-    "timestamp": 1661896410346,
+    "price": "1234",
+    "timestamp": 1662062490849,
     "id": 1
+  },
+  {
+    "title": "Globo Terráqueo",
+    "price": 345.67,
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/globe-earth-geograhy-planet-school-256.png",
+    "description": "Globo Terráqueo",
+    "código": 3,
+    "stock": 5,
+    "id": 2
+  },
+  {
+    "title": "Calculadora",
+    "price": "200.00",
+    "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-512.png",
+    "description": "Calculadora",
+    "código": 2,
+    "stock": 5,
+    "id": 2
   }
 ]

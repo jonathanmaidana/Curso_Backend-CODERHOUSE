@@ -4,16 +4,35 @@ const timestamp = Date.now();
 
 export default class Carrito {
     public text: string;
-
+    
     constructor(text: string){
         this.text = text;
+    }
+    
+    async createCart(obj: object){
+        try{
+            await fs.promises.writeFile('./carrito.txt', JSON.stringify([{...obj, timestamp: timestamp , id: 1}], null, 2))
+        } catch(err){
+            console.log(err)
+        }
+    }
+
+    async deleteAll(){
+        try {
+            await fs.promises.writeFile(this.text, JSON.stringify([]), 'utf8');
+            console.log('Productos borrados')
+            return {msg: 'Carrito vacio'}
+        }
+        catch(err){
+            console.log(err)
+        }
     }
     
     //Devuelve todos los objetos del array
     async getAll(){
         try{
-            const data: string = await fs.promises.readFile(this.text, 'utf-8')
-            const dataParse: string = await JSON.parse(data)
+            const data = await fs.promises.readFile(this.text, 'utf-8')
+            const dataParse = await JSON.parse(data)
             if(dataParse.length){
                 return dataParse
             }
@@ -28,62 +47,22 @@ export default class Carrito {
 
     //Devuelve el objeto según el id
     async getById(id: number){
+        console.log(id)
         try{
-            const data = await fs.promises.readFile(this.text, 'utf8')
+            const data = await fs.promises.readFile('./prod.txt', 'utf8')
             const dataIdParse  = await JSON.parse(data)
             const producto = dataIdParse.find(producto => producto.id === id)
+            const dataCart = await fs.promises.readFile(this.text)
+            const dataCartParse = await JSON.parse(dataCart)
+            console.log(producto)
             if (producto){
-                return producto
+                await fs.promises.writeFile(this.text, JSON.stringify([...dataCartParse, producto], null, 2))
             }
             else{   
                 return console.log('No se encontro el producto')
             }
-            // producto ? console.log(producto) : console.log('No se encontro el producto')
         } 
         catch(err){
-            console.log(err)
-        }
-    }
-
-    // //Recibe un objeto del array y lo modifica
-    async updateById(obj){
-        console.log(obj)
-        try{
-            const data = await fs.promises.readFile(this.text, 'utf8')
-            let dataParse = await JSON.parse(data)
-            const objIndex = dataParse.findIndex(prod => prod.id === obj.id);
-            if(objIndex !== -1){
-                dataParse[objIndex] = obj
-                await fs.promises.writeFile(this.text, JSON.stringify(dataParse, null, 2))
-                return {msg: `El producto con el id ${obj.id} fue actualizado`}
-            }
-            else{
-                return {error: 'El producto no existe'}
-            }
-        }catch(err){
-            console.log(err)
-        }
-    }
-
-    // Recibe y agregar un nuevo objeto al array
-    async newObj(obj: object){
-        try{
-            //LEO EL ARCHIVO
-            const data = await fs.promises.readFile(this.text, 'utf8')
-            //CONVIERTO EL ARCHIVO A UN OBJETO JS
-            const dataParse = JSON.parse(data)
-            if(dataParse.length) //[].length = 0 => false (0 = false, 1 = true)
-            {
-                //SI HAY ALGO EN EL ARCHIVO COPIA EL CONTENIDO DEL VIEJO Y NUEVO ARRAY Y LOS JUNTA
-                await fs.promises.writeFile(this.text, JSON.stringify([...dataParse, {...obj,timestamp: timestamp, id: dataParse.length + 1}], null, 2))
-            }else{
-                //SI NO HAY NADA EN EL ARCHIVO SOBREESCRIBE ESTO
-                // await fs.promises.writeFile(this.text, JSON.stringify([{...obj, id: dataParse.length + 1}], null, 2))
-                await fs.promises.writeFile(this.text, JSON.stringify([{...obj,timestamp: timestamp , id: dataParse.length + 1}], null, 2))
-            }
-                return dataParse.length + 1
-                // console.log(dataParse.length + 1)
-        }catch(err){
             console.log(err)
         }
     }
@@ -102,16 +81,6 @@ export default class Carrito {
             } else{
                 return {err: 'Producto no encontrado'}
             }
-        }
-        catch(err){
-            console.log(err)
-        }
-    }
-
-    async deleteAll(){
-        try {
-            await fs.promises.writeFile(this.text, JSON.stringify([]), 'utf8');
-            console.log('Productos borrados')
         }
         catch(err){
             console.log(err)
