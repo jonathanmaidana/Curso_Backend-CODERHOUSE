@@ -14,19 +14,19 @@ const productos = [
 ]
 
 class Contenedor {
-    constructor(knex){
-        this.knex = knex
+    constructor(){
+        
     }
 
         /* ----------------------------- Crea una tabla ----------------------------- */
         async createTable(tableName){
             try{
-                await this.knex.schema.createTable(tableName, table => {
+                await knex.schema.createTable(tableName, table => {
                     table.increments('id')
                     table.string('name')
                     table.integer('price')
                 })
-                console.log('productos inserted')
+                console.log('table created successfully')
             }catch(error){
                 console.log(error)
             }finally{
@@ -34,7 +34,7 @@ class Contenedor {
             }
         }
 
-         /* ----------------------- Inserta un array de objetos ---------------------- */
+        /* ----------------------- Inserta un array de objetos ---------------------- */
         async insertArray(){
             try{
                 await knex('productos').insert(productos)
@@ -42,23 +42,23 @@ class Contenedor {
             }catch(error){
                 console.log(error)
             }finally{
-                knex.destroy();
+                await knex.destroy();
             }
         }
 
-        //         /* ----------------------- Seleciona todos los objetos ---------------------- */
+        /* ----------------------- Selecciona todos los objetos ---------------------- */
         async selectAll(){
             try{
-            await knex.from('productos').select('*')
-                .then((res) => {
-                    for (item of res) {
-                        console.log(`${item['name']} ${item['price']}`)
-                    }
-                })
+                await knex.from('productos').select('*')
+                    .then((res) => {
+                        for (const item of res){
+                            return (item)
+                        }
+                    })
             }catch(error) {
                 console.log(error)
             }finally{
-                knex.destroy();
+                await knex.destroy();
             }
         }
 
@@ -66,33 +66,33 @@ class Contenedor {
         async insertItem(obj){
             try{
                 await knex('productos').insert({
-                    name: obj.title,
+                    name: obj.name,
                     price: obj.price,
                     })
                 console.log('item inserted successfully')
             }catch(error) {
                 console.log(error)
             }finally{
-                knex.destroy();
+                await knex.destroy();
             }
         }
 
-        //         /* --------------------------- Actualiza un objeto -------------------------- */
+        /* --------------------------- Actualiza un objeto -------------------------- */
         async updateItem(obj){
             try{
                 await knex.from('productos').where().update({
-                    name: obj.title,
+                    name: obj.name,
                     price: obj.price,
                 })
                 console.log('item updated successfully')
             }catch(error) {
                 console.log(error)
             }finally{
-                knex.destroy();
+                await knex.destroy();
             }
         }
 
-        //         /* ----------------------------- Elimina objetos ---------------------------- */
+        /* ----------------------------- Elimina objetos ---------------------------- */
         async deleteItem(){
             try{
                 await knex.from('productos').where('price', '>', '40000').del()
@@ -100,11 +100,11 @@ class Contenedor {
             }catch(error){
                 console.log(error)
             }finally{
-                knex.destroy();
+                await knex.destroy();
             }
         }
 
-        //         /* ----------------------- Elimina el array de objetos ---------------------- */
+        /* ----------------------- Elimina el array de objetos ---------------------- */
         async deleteTable(){
             try{
                 await knex.from('productos').del()
@@ -112,7 +112,7 @@ class Contenedor {
             }catch(error) {
                 console.log(error)
             }finally{
-                knex.destroy();
+                await knex.destroy();
             }
         }
 }
