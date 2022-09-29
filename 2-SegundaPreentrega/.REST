@@ -1,0 +1,64 @@
+# GET http://localhost:4000/api/productos/crearTabla HTTP/1.1
+# content-type: application/json
+
+GET http://localhost:4000/api/productos/ HTTP/1.1
+content-type: application/json
+
+# GET http://localhost:4000/api/productos/1 HTTP/1.1
+# content-type: application/json
+
+# POST http://localhost:4000/api/productos HTTP/1.1
+# content-type: application/json
+
+# {
+#     "title": "Mochila",
+#     "price": "5000",
+#     "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/bag-pack-container-school-512.png"
+# }
+
+
+# PUT http://localhost:4000/api/productos/1 HTTP/1.1
+# content-type: application/json
+
+# {
+#     "title": "Maletin",
+#     "price": "3500",
+#     "thumbnail": "https://cdn0.iconfinder.com/data/icons/education-794/512/Cartable-256.png"
+# }
+
+# DELETE http://localhost:4000/api/productos/4 HTTP/1.1
+# content-type: application/json
+
+
+
+//CARRITO
+
+# GET http://localhost:4000/api/carrito/crearTabla HTTP/1.1
+# content-type: application/json
+
+GET http://localhost:4000/api/carrito/ HTTP/1.1
+content-type: application/json
+
+# GET http://localhost:4000/api/carrito/1 HTTP/1.1
+# content-type: application/json
+
+# POST http://localhost:4000/api/carrito HTTP/1.1
+# content-type: application/json
+
+# {
+#     "title": "Mochila",
+#     "price": "5000",
+#     "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/bag-pack-container-school-512.png"
+# }
+
+# PUT http://localhost:4000/api/carrito/1 HTTP/1.1
+# content-type: application/json
+
+# {
+#     "title": "Maletin",
+#     "price": "3500",
+#     "thumbnail": "https://cdn0.iconfinder.com/data/icons/education-794/512/Cartable-256.png"
+# }
+
+# DELETE http://localhost:4000/api/carrito/1 HTTP/1.1
+# content-type: application/json
