@@ -1,4 +1,4 @@
-const { ContenedorArchivo } = require ('../../contenedores/ContenedorArchivo')
+const { ContenedorArchivo } = require('../../contenedores/ContenedorArchivo')
 
 class ProductosDaoArchivo extends ContenedorArchivo {
     constructor(){

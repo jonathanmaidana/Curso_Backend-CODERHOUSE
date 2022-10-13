@@ -7,22 +7,22 @@ class ContenedorMariaDB {
     }
 
     /* ----------------------------- Crea una tabla ----------------------------- */
-    async createTable(){
-        try{
-            await this.knex.schema.createTable(this.tabla, table => {
-                table.increments('id')
-                table.string('title')
-                table.integer('price')
-                table.string('thumbnail')
-                console.log('Tabla creada')
-            })
-        }catch(error){
-            console.log(error)
-        }
-    }
+    // async createTable(){
+    //     try{
+    //         await this.knex.schema.createTable(this.tabla, table => {
+    //             table.increments('id')
+    //             table.string('title')
+    //             table.integer('price')
+    //             table.string('thumbnail')
+    //             console.log('Tabla creada')
+    //         })
+    //     }catch(error){
+    //         console.log(error)
+    //     }
+    // }
 
     /* ----------------------- Selecciona todos los objetos ---------------------- */
-    async selectAll(){
+    async getAll(){
         try{
             const result = await this.knex.select('*').from(this.tabla)
             const items =  result.map(function(item){
@@ -35,7 +35,7 @@ class ContenedorMariaDB {
     }
 
        /* ----------------------- Selecciona todos los objetos ---------------------- */
-    async selectById(id){
+    async getById(id){
         console.log(id)
         try{
             const result = await this.knex.select('*').from(this.tabla).where('id', '=', id)
@@ -49,7 +49,7 @@ class ContenedorMariaDB {
     }
 
     /* ----------------------------- Inserta un objeto ---------------------------- */
-    async insertItem(obj){
+    async newObj(obj){
         try{
             await this.knex(this.tabla).insert({
                 title: obj.title,
@@ -63,7 +63,7 @@ class ContenedorMariaDB {
     }
 
     /* --------------------------- Actualiza un objeto -------------------------- */
-    async updateItem(obj){
+    async updateById(obj){
         try{
             if(obj.id){
                 await this.knex(this.tabla).where('id', '=', obj.id).update({
@@ -81,7 +81,7 @@ class ContenedorMariaDB {
     }
 
     /* ----------------------------- Elimina un objeto ---------------------------- */
-    async deleteItem(id){
+    async deleteById(id){
         try{
             if(id){
                 await this.knex(this.tabla).where('id', '=', id).del()
@@ -93,7 +93,6 @@ class ContenedorMariaDB {
             console.log(error)
         }
     }
-
 }
 
 module.exports = { ContenedorMariaDB } 

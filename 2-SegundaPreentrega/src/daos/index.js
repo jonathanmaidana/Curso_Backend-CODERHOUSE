@@ -1,10 +1,10 @@
 let productosDao
 let carritoDao
 
-switch (process.env.PERSISTENT) {
-    case 'json':
-        const {default: ProductosDaoArchivo} = await import('./productos/ProductosDaoArchivo')
-        const {default: CarritoDaoArchivo} = await import('./carrito/CarritoDaoArchivo')
+switch (process.env.PERS) {
+    case 'txt':
+        const {default: ProductosDaoArchivo} = await import('./productos/ProductosDaoArchivo.js')
+        const {default: CarritoDaoArchivo} = await import('./carrito/CarritoDaoArchivo.js')
         productosDao = new ProductosDaoArchivo('../archivo/productos.txt')
         carritoDao = new CarritoDaoArchivo('../archivo/carrito.txt')
         break
