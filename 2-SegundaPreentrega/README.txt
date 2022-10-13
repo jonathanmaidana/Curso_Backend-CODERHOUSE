@@ -4,4 +4,3 @@
 
 Para poder hacer las peticiones a los controladores de productos, carrito en mariadb, sqlite3 primero se tiene que agregar objetos a la base de datos para para después poder usar los controladores get, update, delete
 
-
