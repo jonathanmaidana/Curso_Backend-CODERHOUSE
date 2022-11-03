@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 faker.locale = 'es'
 
-function generarMensaje(id) {
+function generarProductos(id) {
     return {
     id,
     title: faker.commerce.product(),//findName() deprecado
@@ -10,4 +10,6 @@ function generarMensaje(id) {
     }
 }
 
-export { generarMensaje }
+export { 
+    generarProductos
+ }

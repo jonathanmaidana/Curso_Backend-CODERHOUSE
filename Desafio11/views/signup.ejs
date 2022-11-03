@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1>Login de Usuario</h1>
+            <br>
+            <form action="/signup" method="post" autocomplete="off">
+                <label for="nombre">Ingrese su nombre</label><br>
+                <input type="text" name="username" placeholder="nombre" required><br>
+                <label for="password">Ingrese su contraseña</label><br>
+                <input type="password" name="password" placeholder="contraseña" required><br>
+                <label for="email">Ingrese su email</label><br>
+                <input type="email" name="email" placeholder="email" required><br>
+                <button type="submit" class="btn btn-success mt-3">Enviar</button>
+                <a href="/login" class="btn btn-success mt-3"/>Login</a>
+            </form>
+        </div>
+        
+    </div>
+</body>
+</html>

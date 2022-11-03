@@ -1,12 +1,13 @@
 const server = io().connect();
 
 
-/* Listening for a new product to be added to the database. */
+/* -------------------------------------------------------------------------- */
+/*                                  PRODUCTOS                                 */
+/* -------------------------------------------------------------------------- */
 server.on('product', (container) => {
     renderPdct(container)
 })
 
-/* Rendering the products in the table. */
 function renderPdct(container){
     console.log(container)
     if (container.length > 0) {
@@ -28,7 +29,6 @@ function renderPdct(container){
 }
 server.on('product', function(data) {renderPdct(data)})
 
-
 async function addProduct(e) {
     const product = {
         title: await document.getElementById('title-form').value,
@@ -39,48 +39,40 @@ async function addProduct(e) {
     return false;
 }
 
-//-------------------------------------------------------------------------------------
-
+/* -------------------------------------------------------------------------- */
+/*                                  MENSAJES                                  */
+/* -------------------------------------------------------------------------- */
 server.on('message', (messages) => {
     renderMsj(messages)
 });
 
-async function addMessage(e) {
+function addMessage(e) {
+    
     const mensaje = {
         author: {
-            id: await document.getElementById('id').value,
-            nombre: await document.getElementById('nombre').value,
-            apellido: await document.getElementById('apellido').value,
-            edad: await document.getElementById('edad').value,
-            alias: await document.getElementById('alias').value,
-            avatar: await document.getElementById('avatar').value
+            id: document.getElementById('id').value,
+            nombre: document.getElementById('nombre').value,
+            apellido:  document.getElementById('apellido').value,
+            edad: document.getElementById('edad').value,
+            alias: document.getElementById('alias').value,
+            avatar: document.getElementById('avatar').value
         },
-        text: await document.getElementById('text').value
+        text:  document.getElementById('text').value
     };
     console.log(mensaje)
     server.emit('new-message', mensaje);
-    return false;
+    return false
 }
 
 function renderMsj(messages){
-    const date = new Date();
-    const day = date.getDate();
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    const hour = date.getHours();
-    const minute = date.getMinutes();
-    const second = date.getSeconds();
-
-
-    const html = messages.map(function (e,i) {
-        console.log(messages);
+    const html = messages.map((e,i) => {
         return(`<div class="d-flex align-items-center">
-        <strong class="me-1 color-primary mb-1">${e.author.id}</strong>
+        <strong class="me-1 color-primary mb-0">${e.author.id}</strong>
         <div>
-        <span class="me-1 color-secondary mb-1">[${day}/${month}/${year} ${hour}:${minute}:${second}]:</span>
+        [<span class="me-0 color-secondary mb-1">${e.fyh}</span>] :
         </div>
-        <span class="me-1 color-tertiary mb-1">${e.text}</span>
-        <span class="me-1 color-tertiary mb-1">
+        <span class="me-1 color-tertiary mx-2">${e.text}</span>
+        <span class="me-1 color-tertiary mx-2">
         <img style="width: 30px" id="thumbnail" src="${e.author.avatar}"/>
         </span>
         </div>`)
@@ -88,5 +80,5 @@ function renderMsj(messages){
 
     document.getElementById('messages').innerHTML = html;
 }
-server.on('message', function(data) {renderMsj(data)})
+server.on('messages', function(data) { render(data); });
 
