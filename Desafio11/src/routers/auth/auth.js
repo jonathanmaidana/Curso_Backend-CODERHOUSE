@@ -61,7 +61,9 @@ passport.use('login', new LocalStrategy({
 
 /* --------------------------------- SIGNUP --------------------------------- */
 authWebRouter.get('/signup',  (req, res) => {
-    res.render(path.join(process.cwd(), '/views/signup'))
+    try{
+        res.render(path.join(process.cwd(), '/views/signup'))
+    }catch(err){console.log(err)}
 })
 
 authWebRouter.post('/signup', async (req, res) => {
@@ -100,7 +102,9 @@ passport.deserializeUser((id, done) => {
 
 /* ----------------------------- RUTAS DEFINIDAS ---------------------------- */
 authWebRouter.get('/login', (req, res) => {
-    res.render('login')
+    try{
+        res.render('login')
+    }catch(err){console.log(err)}
 })
 
 authWebRouter.get('/login', (req, res) => {
@@ -150,6 +154,7 @@ authWebRouter.get('/logout', (req, res, next) => {
 //         })
 //     }catch(err){console.log(err)}
 // })
+//Esta ruta esta comentada porque cuando logeo y redirecciona a la ruta home, me salta el error de esta ruta
 
 
 module.exports = authWebRouter
