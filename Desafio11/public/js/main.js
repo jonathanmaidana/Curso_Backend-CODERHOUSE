@@ -28,11 +28,11 @@ function renderPdct(container){
 }
 server.on('product', function(data) {renderPdct(data)})
 
-async function addProduct(e) {
+function addProduct(e) {
     const product = {
-        title: await document.getElementById('title-form').value,
-        price: await document.getElementById('price-form').value,
-        thumbnail: await document.getElementById('thumbnail-form').value
+        title: document.getElementById('title-form').value,
+        price: document.getElementById('price-form').value,
+        thumbnail: document.getElementById('thumbnail-form').value
     };
     server.emit('new-product', product);
 }
@@ -45,7 +45,6 @@ server.on('message', (messages) => {
 });
 
 function addMessage(e) {
-    
     const mensaje = {
         author: {
             id: document.getElementById('id').value,
@@ -57,7 +56,6 @@ function addMessage(e) {
         },
         text:  document.getElementById('text').value
     };
-    console.log(mensaje)
     server.emit('new-message', mensaje);
     return false
 }
@@ -79,4 +77,8 @@ function renderMsj(messages){
     document.getElementById('messages').innerHTML = html;
 }
 server.on('messages', function(data) { render(data); });
+
+server.on('output-messages', data => {
+    console.log(data)
+})
 

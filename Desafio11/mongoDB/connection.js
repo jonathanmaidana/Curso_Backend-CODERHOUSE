@@ -1,6 +1,6 @@
 const config = {
     mongodb: {
-        conexionDB: 'mongodb+srv://jonathanmaidana:hl3z53BQR0CoXTK7@cluster0.dsepao7.mongodb.net/test',
+        conexionDB: `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.dsepao7.mongodb.net/test`,
         options: {
             useNewUrlParser: true,
             useUnifiedTopology: true

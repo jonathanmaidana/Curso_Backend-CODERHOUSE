@@ -32,7 +32,7 @@ class ContenedorUsuarios {
     }
 
     async getByUsername(username){
-        console.log(username)
+        // console.log(username)
         try{
             const getAll = await this.collection.find()
             const usuario = getAll.find(e => e.username === username)
@@ -51,7 +51,7 @@ class ContenedorUsuarios {
             const getAll = await this.collection.find()
             const usuario = getAll.find(e => e.username === username && e.password === password)
             if(!usuario) {
-                console.log('el usuario no existe')
+                console.log('usuario o contraseña incorrecta')
             }else{
                 return usuario + 'usuario correcto'
             }
@@ -61,7 +61,7 @@ class ContenedorUsuarios {
     }
 
 
-    async newUser(obj){
+    newUser(obj){
         console.log(obj)
         try{
             const newObj = new this.collection({

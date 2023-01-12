@@ -1,89 +1,106 @@
+const express = require('express')
 const Router = require ('express')
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
-const PRIVATE_KEY = "myprivatekey"
-const bcrypt = require('bcrypt')
+const bCrypt = require('bcrypt')
 
 const passport = require('passport')
-const LocalStrategy = require('passport-local').Strategy
-
 
 const UsuariosMongoDB = require('../../models/usuarios')
-const usuarios = new UsuariosMongoDB()
+const data = new UsuariosMongoDB()
 
 const path = require ('path')
+const webAuth = require('../../middlewares/isLogin')
 
 const authWebRouter = new Router()
 
 
 /* ---------------------------------- UTILS --------------------------------- */
 const generateToken = (user) => {
-    const token = jwt.sign({ data: user }, PRIVATE_KEY, {expiresIn: '24h'})
+    const token = jwt.sign({ data: user }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES})
     return token
 }
 
 const isValidPassword = (user, password) => {
-    return bcrypt.compareSync(password, user.password)
+    return bCrypt.compareSync(password, user.password)
 }
 
 const createHash = (password) => {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)
+    return bCrypt.hashSync(
+        password,
+        bCrypt.genSaltSync(10),
+        null)
 }
 
-
-/* ---------------------------------- LOGIN --------------------------------- */
-passport.use('login', new LocalStrategy({
-    usernameField:'username',
-    passwordField:'password'
-},
-    async (username, password, done) => {
-        try{
-            let user = await usuarios.getByUsername(username)
-
-            if(!user){
-                console.log(`No existe el usuario ${username}`)
-                return done(null, false, { message: 'User not found'})
-            }
-    
-            if(!isValidPassword(user, password)){
-                console.log('Password Incorrect')
-                return done(null, false, { message: 'Password not found'})
-            }
-
-            done(null, user)
-            
-        }catch(err){
-            console.log(err)
-        }
-    }
-))
-
-
 /* --------------------------------- SIGNUP --------------------------------- */
-authWebRouter.get('/signup',  (req, res) => {
+authWebRouter.get('/signup', (req, res) => {
     try{
-        res.render(path.join(process.cwd(), '/views/signup'))
+        res.render('signup')
     }catch(err){console.log(err)}
 })
 
-authWebRouter.post('/signup', async (req, res) => {
+authWebRouter.post('/signup', async (req, res) =>{
     try{
         const { username, password, email } = req.body
-        const yaExiste = await usuarios.getByUsername(username)
+        const yaExiste = await data.getByUsername(username)
 
         if(yaExiste){
-            return res.render('failSignup')
+            return res.redirect('/failSignup')
+        }else{
+            const usuario = {
+                username,
+                password,
+                email
+                }
+
+            const newUser = {
+                username: username,
+                password: createHash(password),
+                email: email
+            }
+
+            data.newUser(newUser)
+
+            const access_token = generateToken(usuario)
+
+            res.status(401).render('signup', {
+                msg: 'usuario creado',
+                access_token: access_token
+            })
+
+            console.log(access_token)
         }
-
-        const newUser = {username, password: createHash(password), email}
-        usuarios.newUser(newUser)
-
-        const access_token = generateToken(newUser)
-
-        res.json({ access_token })
-
     }catch(error){
         console.log(error)
+    }
+})
+
+
+/* ---------------------------------- LOGIN --------------------------------- */
+authWebRouter.post('/login', async (req, res) => {
+
+    const { username, password } = req.body
+
+    try{
+        let user = await data.getByUsername(username)
+
+        if(!user || !isValidPassword(user, password)){
+            res.redirect('/failLogin')
+        }else{
+            const access_token = generateToken(user)
+            const opcionesCookie ={
+                expires:new Date(
+                    Date.now()+process.env.JWT_COOKIE_EXPIRES*24*60*60*1000
+                ),
+                httpOnly:true
+            }
+
+            res.cookie('login',access_token,opcionesCookie)
+            return res.status(200).redirect('/home')
+            // res.render('pages/home.ejs', {access_token, email: 'token'})
+        }
+    }catch(err){
+        console.log(err)
     }
 })
 
@@ -95,7 +112,6 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
     const user = usuarios.getById(id);
-
     done(null, user)
 });
 
@@ -107,54 +123,54 @@ authWebRouter.get('/login', (req, res) => {
     }catch(err){console.log(err)}
 })
 
-authWebRouter.get('/login', (req, res) => {
+authWebRouter.post('/login',
+    passport.authenticate('login', { 
+        successRedirect: '/home', 
+        failureRedirect: '/failLogin'
+    }
+))
+
+/* ------------------------- CREDENCIALES INVALIDAS ------------------------- */
+authWebRouter.get('/failLogin', (req, res) => {
     try{
-        if(req.isAuthenticated()) {
-            const { user } = req.user
-            console.log(`Usuario logeado`)
-            res.redirect('/home')
-        }else{
-            console.log(`Usuario no esta logeado`)
-            res.render('login')
-        }
-        res.render('login')
+        res.render('failLogin')
     }catch(err){console.log(err)}
 })
 
-authWebRouter.post('/login', passport.authenticate('login',{
-    successRedirect: '/home',
-    failureRedirect: '/failLogin'
-}))
-
-authWebRouter.get('/failLogin', (req, res) => {
+authWebRouter.get('/failSignup', (req, res) => {
     try{
-        console.log('El usuario no existe')
-        res.render('failLogin')
+        res.render('failSignup')
     }catch(err){console.log(err)}
 })
 
 
 /* --------------------------------- LOGOUT --------------------------------- */
-authWebRouter.get('/logout', (req, res, next) => {
+authWebRouter.get('/logout', webAuth, (req, res, next) => {
+    const usuario = req.usuario
+
     try{
         req.logout((err) => {
             if(err) { return next(err) }
-            res.render(path.join(process.cwd(), '/views/pages/logout.ejs'))
+            res.cookie('login','',{maxAge:1})
+            res.status(200).render('pages/logout.ejs', { email: usuario.email})
         })
     }catch(err){console.log(err)}
 })
 
 
 /* ------------------------------- FAIL ROUTE ------------------------------- */
-// authWebRouter.get('*', (req, res) => {
-//     try{
-//         res.status(404).json({
-//             success: false,
-//             message: 'Error 404'
-//         })
-//     }catch(err){console.log(err)}
-// })
-//Esta ruta esta comentada porque cuando logeo y redirecciona a la ruta home, me salta el error de esta ruta
-
+authWebRouter.get('*', (req, res, next) => {
+    try{
+        if(req.path === '/home'){
+            next()
+        }else{
+            console.log(req)
+            res.status(404).json({
+                success: false,
+                message: 'Error 404'
+            })
+        }
+    }catch(err){console.log(err)}
+})
 
 module.exports = authWebRouter
