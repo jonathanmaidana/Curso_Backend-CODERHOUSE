@@ -21,7 +21,6 @@ homeWebRouter.get('/home', webAuth, (req, res, next) => {
             res.render(path.join(process.cwd(), '/views/pages/home.ejs'), { listaProductos: getAll, email: email })
         }
 
-        
     }catch(err){
         next(err)
     }
