@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>Register</title>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container d-flex justify-content-center">
+        <div class="bg-secondary mt-3 p-5 rounded-2">
+        <h1>Registrar usuario</h1>
+        <br>
+
+        <form action="/signup" method="post" autocomplete="off">
+            <div class="mb-3">
+                <label for="username" class="form-label">Ingrese su nombre</label>
+                <input type="text" class="form-control" name="username" placeholder="nombre" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Ingrese su contraseña</label>
+                <input type="password" class="form-control" name="password" placeholder="contraseña" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Ingrese su email</label>
+                <input type="text" class="form-control" name="email" placeholder="email" required>
+            </div>
+
+            <% if(locals.msg) { %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong><%= msg %></strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+            <% } %>
+
+            <button type="submit" class="btn btn-success mt-3">Enviar</button>
+            <a href="/login" class="btn btn-success mt-3"/>Login</a>
+        </form>
+
+        </div>
+    </div>
+</body>
+</html>
